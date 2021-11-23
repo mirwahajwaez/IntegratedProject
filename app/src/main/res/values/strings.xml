@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">integratedProject</string>
+    <string name="admin">Admin</string>
+    <string name="student">Student</string>
 </resources>
