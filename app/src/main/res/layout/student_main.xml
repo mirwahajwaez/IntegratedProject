@@ -6,4 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".student.StudentMainActivity">
 
+    <TextView
+        android:id="@+id/txtExamenMaken"
+        android:layout_width="255dp"
+        android:layout_height="34dp"
+        android:text="Kies de examen die je moet maken"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.042" />
+
+    <Button
+        android:id="@+id/btnWebframeworks"
+        android:layout_width="230dp"
+        android:layout_height="37dp"
+        android:text="Webframeworks"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238" />
+
+    <Button
+        android:id="@+id/btnWebservices"
+        android:layout_width="230dp"
+        android:layout_height="37dp"
+        android:text="Webservices"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.402" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

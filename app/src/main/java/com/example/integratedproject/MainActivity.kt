@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import com.example.integratedproject.admin.AdminLoginActivity
 import com.example.integratedproject.student.StudentMainActivity
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val buttonAdmin = findViewById<View>(R.id.btnAdmin)
-        val buttonStudent = findViewById<View>(R.id.btnStudent)
+        val buttonStudent = findViewById<Button>(R.id.btnStudent)
 
         buttonStudent.setOnClickListener {
             intent = Intent(this, StudentMainActivity::class.java)
