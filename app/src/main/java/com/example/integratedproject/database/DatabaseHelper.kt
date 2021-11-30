@@ -36,9 +36,41 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.rawQuery(SELECT_EXAMS, null)
     }
 
-    fun allAdmins(): Cursor {
+    fun allAdmins(): Array<Array<String>> {
         val db = this.readableDatabase
-        return db.rawQuery(SELECT_ADMINS, null)
+        val admins = arrayOf<Array<String>>()
+        var email: String
+        var password: String
+
+        val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
+        val selection = null
+        val selectionArgs = null
+        val sortOrder = null
+
+        val cursor = db.query(
+            TABLE_EXAMS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                val list: MutableList<String> = ArrayList()
+                email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
+                password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
+                list.add(email)
+                list.add(password)
+                admins[cursor.position] = list.toTypedArray()
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+
+        return admins
     }
 
     fun allStudentExams(examId: Int): Cursor {
@@ -198,9 +230,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + PASSWORD + "TEXT NOT NULL);")
 
         private val DELETE_TABLE_ADMIN = "DROP TABLE IF EXISTS $TABLE_ADMINS"
-
-        private val SELECT_ADMINS = "SELECT * FROM $TABLE_ADMINS"
-
+        
 
 
     }
