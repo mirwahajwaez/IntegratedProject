@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
@@ -20,11 +22,13 @@ class AdminCsvActivity : AppCompatActivity() {
 
         databaseHelper = DatabaseHelper(this)
 
-        val buttonImport = findViewById<View>(R.id.buttonAdd)
-        val csvTextField = findViewById<View>(R.id.textCsvStudents)
+        val buttonImport = findViewById<Button>(R.id.buttonAdd)
+        val csvTextField = findViewById<EditText>(R.id.textCsvStudents)
+        var arrayStudents: ArrayList<String>
+
 
         buttonImport.setOnClickListener {
-            val csvData = csvTextField!!.toString()
+            val csvData = csvTextField!!.text.toString()
             if(csvData.isNotEmpty()) {
                val studentsData = csvData.split(",").toTypedArray()
                 for (i in studentsData) databaseHelper!!.addStudent(i)

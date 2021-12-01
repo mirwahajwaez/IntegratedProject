@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.util.ArrayList
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -26,29 +27,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     // loop through all rows and adding to Students list
-    fun allStudents(): Cursor {
+    fun allStudents(): ArrayList<String> {
+        val studentsArrayList = ArrayList<String>()
+        var snummer: String
         val db = this.readableDatabase
-        return db.rawQuery(SELECT_STUDENTS, null)
-    }
 
-    fun allExams(): Cursor {
-        val db = this.readableDatabase
-        return db.rawQuery(SELECT_EXAMS, null)
-    }
-
-    fun allAdmins(): Array<Array<String>> {
-        val db = this.readableDatabase
-        val admins = arrayOf<Array<String>>()
-        var email: String
-        var password: String
-
-        val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
+        val projection = arrayOf(STUDENT_ID, SNUMMER)
         val selection = null
         val selectionArgs = null
-        val sortOrder = null
+        val sortOrder = "${SNUMMER} DESC"
 
         val cursor = db.query(
-            TABLE_EXAMS,
+            TABLE_STUDENTS,
             projection,
             selection,
             selectionArgs,
@@ -59,12 +49,50 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
-                val list: MutableList<String> = ArrayList()
+                snummer = cursor.getString(cursor.getColumnIndexOrThrow(SNUMMER))
+                studentsArrayList.add(snummer)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return studentsArrayList
+    }
+
+    fun allExams(): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery(SELECT_EXAMS, null)
+    }
+
+    fun allAdmins(): Array<Array<String>> {
+        val db = this.readableDatabase
+        var admins = arrayOf<Array<String>>()
+        //var matrix: Array<Array<String>>
+        var email: String
+        var password: String
+
+        val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
+        val selection = null
+        val selectionArgs = null
+        val sortOrder = null
+
+        val cursor = db.query(
+            TABLE_ADMINS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                var array = arrayOf<String>()
                 email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
                 password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
-                list.add(email)
-                list.add(password)
-                admins[cursor.position] = list.toTypedArray()
+                array += email
+                array += password
+                admins += array
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -128,10 +156,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.insert(TABLE_EXAMS, null, values)
     }
 
-    fun addAdmin(student: String, password: String): Long {
+    fun addAdmin(email: String, password: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(EMAIL, student)
+        values.put(EMAIL, email)
         values.put(PASSWORD, password)
 
         return db.insert(TABLE_ADMINS, null, values)
@@ -212,7 +240,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         private val CREATE_TABLE_QUESTIONS = ("CREATE TABLE "
                 + TABLE_QUESTIONS + "(" + QUESTION_ID
-                + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + EXAM_ID + " INTEGER NOT NULL REFERENCES " + TABLE_EXAMS + "(" + EXAM_ID + "),"
                 + QUESTION_NR + " INTEGER NOT NULL,"
                 + TYPE + " SMALLINT NOT NULL,"
@@ -225,12 +253,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private val PASSWORD = "password"
 
         private val CREATE_TABLE_ADMIN = ("CREATE TABLE "
-                + TABLE_ADMINS + "(" + ADMIN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + EMAIL + "TEXT NOT NULL,"
-                + PASSWORD + "TEXT NOT NULL);")
+                + TABLE_ADMINS + "(" + ADMIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + EMAIL + " TEXT NOT NULL,"
+                + PASSWORD + " TEXT NOT NULL);")
 
         private val DELETE_TABLE_ADMIN = "DROP TABLE IF EXISTS $TABLE_ADMINS"
-        
+
 
 
     }
