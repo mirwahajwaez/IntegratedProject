@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntegratedProject">
         <activity
+            android:name=".admin.AdminViewExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminCsvActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminLoginActivity"
             android:exported="false"
             android:label="@string/title_activity_admin_login"
