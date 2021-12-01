@@ -57,9 +57,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return studentsArrayList
     }
 
-    fun allExams(): ArrayList<String> {
-        val examsArrayList = ArrayList<String>()
+    fun allExams(): Array<Array<String>> {
+        var examsArrayList = arrayOf<Array<String>>()
         var name: String
+        var examId: Int
         val db = this.readableDatabase
 
         val projection = arrayOf(EXAM_ID, NAME)
@@ -79,8 +80,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
+                var array = arrayOf<String>()
                 name = cursor.getString(cursor.getColumnIndexOrThrow(NAME))
-                examsArrayList.add(name)
+                examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
+                array += examId.toString()
+                array += name
+                examsArrayList += array
             } while (cursor.moveToNext())
         }
         cursor.close()

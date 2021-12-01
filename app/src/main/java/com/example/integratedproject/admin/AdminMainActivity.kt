@@ -39,26 +39,29 @@ class AdminMainActivity : AppCompatActivity() {
         createExamList()
     }
 
-    fun createExamList() {
+    private fun createExamList() {
         val lm = findViewById<View>(R.id.linearMain) as LinearLayout
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
         )
 
-        val exams: ArrayList<String> = databaseHelper!!.allExams()
+        val exams: Array<Array<String>> = databaseHelper!!.allExams()
 
-        if(exams.size > 0) {
+        if(exams.isNotEmpty()) {
             for (exam in exams) {
                 val ll = LinearLayout(this)
                 ll.orientation = LinearLayout.HORIZONTAL
 
                 val btn = Button(this)
                 btn.id = exam.hashCode() + 1
-                btn.text = exam
+                btn.text = exam[1]
                 btn.layoutParams = params
 
                 btn.setOnClickListener {
                     intent = Intent(this, AdminExamResultActivity::class.java)
+                    intent.putExtra("EXAM_ID", exam[0])
+                    intent.putExtra("EXAM_NAME", exam[1])
+
                     startActivity(intent)
                 }
 
@@ -68,6 +71,8 @@ class AdminMainActivity : AppCompatActivity() {
 
                 btnEdit.setOnClickListener {
                     intent = Intent(this, AdminExamResultActivity::class.java)
+                    intent.putExtra("EXAM_ID", exam[0])
+                    intent.putExtra("EXAM_NAME", exam[1])
                     startActivity(intent)
                 }
 
