@@ -24,7 +24,6 @@ class AdminCsvActivity : AppCompatActivity() {
 
         val buttonImport = findViewById<Button>(R.id.buttonAdd)
         val csvTextField = findViewById<EditText>(R.id.textCsvStudents)
-        var arrayStudents: ArrayList<String>
 
 
         buttonImport.setOnClickListener {
