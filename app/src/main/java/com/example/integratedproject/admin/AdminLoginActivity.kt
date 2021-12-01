@@ -28,10 +28,9 @@ class AdminLoginActivity : AppCompatActivity() {
         val inputEmail = findViewById<EditText>(R.id.inputEmail)
         var arrayAdmins: Array<Array<String>>
 
-        databaseHelper!!.addAdmin("test@test.be", "test")
+        //databaseHelper!!.addAdmin("test@test.be", "test")
         
         buttonLogin.setOnClickListener {
-            //TO DO: VERRIFICATIE
             arrayAdmins = databaseHelper!!.allAdmins()
 
             for(i in arrayAdmins) {

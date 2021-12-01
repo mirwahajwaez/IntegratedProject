@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.integratedproject.R
 
-class AdminViewExamActivity : AppCompatActivity() {
+class AdminExamResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.admin_view_exam)
-
+        setContentView(R.layout.admin_exam_result)
     }
 }

@@ -1,33 +1,84 @@
 package com.example.integratedproject.admin
 
+import android.app.ActionBar
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import com.example.integratedproject.R
-import com.example.integratedproject.student.StudentMainActivity
+import com.example.integratedproject.database.DatabaseHelper
 
 class AdminMainActivity : AppCompatActivity() {
+    private var databaseHelper: DatabaseHelper? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_main)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        databaseHelper = DatabaseHelper(this)
+
         val buttonAddStudents = findViewById<Button>(R.id.buttonStudents)
-        val buttonViewExams = findViewById<Button>(R.id.buttonExam)
+        val buttonAddExams = findViewById<Button>(R.id.buttonExam)
+        val textExamName = findViewById<EditText>(R.id.textExamName)
 
         buttonAddStudents.setOnClickListener {
             intent = Intent(this, AdminCsvActivity::class.java)
             startActivity(intent)
         }
 
-        buttonViewExams.setOnClickListener {
-            intent = Intent(this, AdminViewExamActivity::class.java)
-            startActivity(intent)
+        buttonAddExams.setOnClickListener {
+            databaseHelper!!.addExam(textExamName.text.toString())
+            createExamList()
         }
 
-
+        createExamList()
     }
+
+    fun createExamList() {
+        val lm = findViewById<View>(R.id.linearMain) as LinearLayout
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
+        )
+
+        val exams: ArrayList<String> = databaseHelper!!.allExams()
+
+        if(exams.size > 0) {
+            for (exam in exams) {
+                val ll = LinearLayout(this)
+                ll.orientation = LinearLayout.HORIZONTAL
+
+                val btn = Button(this)
+                btn.id = exam.hashCode() + 1
+                btn.text = exam
+                btn.layoutParams = params
+
+                btn.setOnClickListener {
+                    intent = Intent(this, AdminExamResultActivity::class.java)
+                    startActivity(intent)
+                }
+
+                val btnEdit = Button(this)
+                btnEdit.text = "Edit"
+                btnEdit.layoutParams = params
+
+                btnEdit.setOnClickListener {
+                    intent = Intent(this, AdminExamResultActivity::class.java)
+                    startActivity(intent)
+                }
+
+
+                ll.addView(btn)
+                ll.addView(btnEdit)
+
+                lm.addView(ll)
+            }
+        }
+    }
+
+
 }
