@@ -57,6 +57,38 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return studentsArrayList
     }
 
+    fun getStudent(studentId: String): ArrayList<String> {
+        val studentsArrayList = ArrayList<String>()
+        var snummer: String
+        val db = this.readableDatabase
+
+
+        val projection = arrayOf(STUDENT_ID, SNUMMER)
+        val selection = "$STUDENT_ID = ?"
+        val selectionArgs = arrayOf(studentId)
+        val sortOrder = "$STUDENT_ID DESC"
+
+        val cursor = db.query(
+            TABLE_STUDENTS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                snummer = cursor.getString(cursor.getColumnIndexOrThrow(SNUMMER))
+                studentsArrayList.add(snummer)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return studentsArrayList
+    }
+
     fun allExams(): Array<Array<String>> {
         var examsArrayList = arrayOf<Array<String>>()
         var name: String
