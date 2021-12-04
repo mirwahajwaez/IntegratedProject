@@ -2,7 +2,6 @@ package com.example.integratedproject.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.util.ArrayList
@@ -130,6 +129,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         var admins = arrayOf<Array<String>>()
         var email: String
         var password: String
+        var adminId: Int
 
         val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
         val selection = null
@@ -151,8 +151,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 var array = arrayOf<String>()
                 email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
                 password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
+                adminId = cursor.getInt(cursor.getColumnIndexOrThrow(ADMIN_ID))
                 array += email
                 array += password
+                array += adminId.toString()
                 admins += array
             } while (cursor.moveToNext())
         }
@@ -160,6 +162,44 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
 
         return admins
+    }
+
+    fun getOneAdmin(adminIdd: String): ArrayList<String> {
+        val adminsArrayList = ArrayList<String>()
+        var email: String
+        var password: String
+        var adminId: Int
+        val db = this.readableDatabase
+
+
+        val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
+        val selection = "$ADMIN_ID = ?"
+        val selectionArgs = arrayOf(adminIdd)
+        val sortOrder = "$ADMIN_ID DESC"
+
+        val cursor = db.query(
+            TABLE_ADMINS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
+                password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
+                adminId = cursor.getInt(cursor.getColumnIndexOrThrow(ADMIN_ID))
+                adminsArrayList.add(email)
+                adminsArrayList.add(password)
+                adminsArrayList.add(adminId.toString())
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return adminsArrayList
     }
 
     fun allStudentExams(examIdToFind: Int): Array<Array<String>> {
@@ -304,6 +344,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         values.put(SOLUTION, solution)
 
         return db.insert(TABLE_QUESTIONS, null, values)
+    }
+
+    fun updateAdmin(oldPassword: String, newPassword: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(PASSWORD, newPassword)
+        }
+
+        val selection = "$PASSWORD LIKE ?"
+        val selectionArgs = arrayOf(oldPassword)
+
+        return db.update(
+            TABLE_ADMINS,
+            values,
+            selection,
+            selectionArgs
+        )
     }
 
     companion object {

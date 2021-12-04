@@ -36,6 +36,7 @@ class AdminLoginActivity : AppCompatActivity() {
             for(i in arrayAdmins) {
                 if (i[0] == inputEmail.text.toString() && i[1] == inputPassword.text.toString()) {
                     intent = Intent(this, AdminMainActivity::class.java)
+                    intent.putExtra("ADMIN_ID", i[2])
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Wrong email and/or password", Toast.LENGTH_SHORT).show()

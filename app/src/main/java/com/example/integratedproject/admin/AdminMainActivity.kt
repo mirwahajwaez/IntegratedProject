@@ -24,10 +24,19 @@ class AdminMainActivity : AppCompatActivity() {
 
         val buttonAddStudents = findViewById<Button>(R.id.buttonStudents)
         val buttonAddExams = findViewById<Button>(R.id.buttonExam)
+        val buttonResetPassword = findViewById<Button>(R.id.buttonReset)
+
         val textExamName = findViewById<EditText>(R.id.textExamName)
 
         buttonAddStudents.setOnClickListener {
             intent = Intent(this, AdminCsvActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonResetPassword.setOnClickListener {
+            val adminId = intent.getStringExtra("ADMIN_ID")
+            intent = Intent(this, AdminResetActivity::class.java)
+            intent.putExtra("ADMIN_ID", adminId)
             startActivity(intent)
         }
 
