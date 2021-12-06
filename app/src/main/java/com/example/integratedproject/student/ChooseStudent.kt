@@ -14,7 +14,7 @@ class ChooseStudent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_student)
 
-
+        
 
     }
 }
