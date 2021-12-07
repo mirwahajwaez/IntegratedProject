@@ -25,6 +25,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
+    fun placeholder() {
+        val db = this.writableDatabase
+        db.execSQL(DELETE_TABLE_QUESTIONS)
+        db.execSQL(CREATE_TABLE_QUESTIONS)
+
+    }
+
 
     fun allStudents(): ArrayList<String> {
         val studentsArrayList = ArrayList<String>()
@@ -258,14 +265,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         var questions = arrayOf<Array<String>>()
         var questionId: Int
         var examId: Int
-        var questiontNr: Int
         var type: Int
         var solution: String
 
-        val projection = arrayOf(QUESTION_ID, EXAM_ID, QUESTION_NR, TYPE, SOLUTION)
+        val projection = arrayOf(QUESTION_ID, EXAM_ID, TYPE, SOLUTION)
         val selection = "$EXAM_ID = ?"
         val selectionArgs = arrayOf(examIdToFind.toString())
-        val sortOrder = "$QUESTION_NR DESC"
+        val sortOrder = "$QUESTION_ID DESC"
 
         val cursor = db.query(
             TABLE_QUESTIONS,
@@ -282,12 +288,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 var array = arrayOf<String>()
                 questionId = cursor.getInt(cursor.getColumnIndexOrThrow(QUESTION_ID))
                 examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
-                questiontNr = cursor.getInt(cursor.getColumnIndexOrThrow(QUESTION_NR))
                 type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE))
                 solution = cursor.getString(cursor.getColumnIndexOrThrow(SOLUTION))
                 array += questionId.toString()
                 array += examId.toString()
-                array += questiontNr.toString()
                 array += type.toString()
                 array += solution
                 questions += array
@@ -337,10 +341,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.insert(TABLE_STUDENTSEXAMS, null, values)
     }
 
-    fun addQuestions(questiontNr: Int, type: Int, solution: String): Long {
+    fun addQuestions(examId: String, type: Int, solution: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(QUESTION_NR, questiontNr)
+        values.put(EXAM_ID, examId)
         values.put(TYPE, type)
         values.put(SOLUTION, solution)
 
@@ -407,7 +411,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private val DELETE_TABLE_STUDENTSEXAMS = "DROP TABLE IF EXISTS $TABLE_STUDENTSEXAMS"
 
         private val QUESTION_ID = "question_id"
-        private val QUESTION_NR = "number"
         private val TYPE = "type"
         private val SOLUTION = "solution"
 
@@ -415,7 +418,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + TABLE_QUESTIONS + "(" + QUESTION_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + EXAM_ID + " INTEGER NOT NULL REFERENCES " + TABLE_EXAMS + "(" + EXAM_ID + "),"
-                + QUESTION_NR + " INTEGER NOT NULL,"
                 + TYPE + " SMALLINT NOT NULL,"
                 + SOLUTION + " TEXT NOT NULL);")
 

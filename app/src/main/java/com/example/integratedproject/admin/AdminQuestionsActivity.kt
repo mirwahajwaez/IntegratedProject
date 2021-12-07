@@ -14,7 +14,7 @@ import com.example.integratedproject.database.DatabaseHelper
 
 class AdminQuestionsActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
-
+    private var allQuestions: Array<Array<String>> = emptyArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class AdminQuestionsActivity : AppCompatActivity() {
         val questionsTextField = findViewById<TextView>(R.id.textView6)
 
 
-        val allQuestions: Array<Array<String>> = databaseHelper!!.allQuestions(intent.getStringExtra("EXAM_ID"))
+        allQuestions = databaseHelper!!.allQuestions(intent.getStringExtra("EXAM_ID"))
 
         if (allQuestions.isNotEmpty()) {
             questionsTextField.text =
@@ -43,50 +43,40 @@ class AdminQuestionsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //createQuestionList()
+        createQuestionList()
     }
 
     private fun createQuestionList() {
-        val lm = findViewById<View>(R.id.linearMain) as LinearLayout
+        val lm = findViewById<View>(R.id.linearLayoutQuestions) as LinearLayout
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
         )
 
-        val exams: Array<Array<String>> = databaseHelper!!.allExams()
-
-        if(exams.isNotEmpty()) {
-            for (exam in exams) {
+        if (allQuestions.isNotEmpty()) {
+            for (question in allQuestions) {
                 val ll = LinearLayout(this)
                 ll.orientation = LinearLayout.HORIZONTAL
 
-                val btn = Button(this)
-                btn.id = exam.hashCode() + 1
-                btn.text = exam[1]
-                btn.layoutParams = params
+                val questionText = TextView(this)
+                questionText.layoutParams = params
+                questionText.text = "Question: ${question[3]}"
+                //todo: vraag er uit halen
 
-                btn.setOnClickListener {
-                    intent = Intent(this, AdminExamResultActivity::class.java)
-                    intent.putExtra("EXAM_ID", exam[0])
-                    intent.putExtra("EXAM_NAME", exam[1])
-
-                    startActivity(intent)
-                }
-
-                val btnEdit = Button(this)
-                btnEdit.text = "Edit"
-                btnEdit.layoutParams = params
-
-                btnEdit.setOnClickListener {
-                    intent = Intent(this, AdminQuestionsActivity::class.java)
-                    intent.putExtra("EXAM_ID", exam[0])
-                    intent.putExtra("EXAM_NAME", exam[1])
-                    startActivity(intent)
-                }
+                val type = TextView(this)
+                type.layoutParams = params
+                type.text = "Type: ${question[2]}"
+                //todo: switch voor type te vinden
 
 
-                ll.addView(btn)
-                ll.addView(btnEdit)
+                val buttonEdit = Button(this)
+                buttonEdit.layoutParams = params
+                buttonEdit.text = "Edit"
 
+
+
+                ll.addView(questionText)
+                ll.addView(type)
+                ll.addView(buttonEdit)
                 lm.addView(ll)
             }
         }
