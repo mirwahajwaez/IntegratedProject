@@ -38,7 +38,6 @@ class AdminResetActivity : AppCompatActivity() {
 
                     intent = Intent(this, AdminLoginActivity::class.java)
                     startActivity(intent)
-                    //toast success
                 } else {
                     Toast.makeText(this, "New password equals current password", Toast.LENGTH_SHORT).show()
 

@@ -25,6 +25,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
+
     fun allStudents(): ArrayList<String> {
         val studentsArrayList = ArrayList<String>()
         var snummer: String
@@ -252,7 +253,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
 
-    fun allQuestions(examIdToFind: Int): Array<Array<String>> {
+    fun allQuestions(examIdToFind: String?): Array<Array<String>> {
         val db = this.readableDatabase
         var questions = arrayOf<Array<String>>()
         var questionId: Int
@@ -382,7 +383,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         private val DELETE_TABLE_STUDENTS = "DROP TABLE IF EXISTS $TABLE_STUDENTS"
 
-        private val SELECT_STUDENTS = "SELECT * FROM $TABLE_STUDENTS"
 
         private val EXAM_ID = "exam_id"
         private val NAME = "name"
@@ -417,7 +417,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + EXAM_ID + " INTEGER NOT NULL REFERENCES " + TABLE_EXAMS + "(" + EXAM_ID + "),"
                 + QUESTION_NR + " INTEGER NOT NULL,"
                 + TYPE + " SMALLINT NOT NULL,"
-                + SOLUTION + "INTEGER NOT NULL);")
+                + SOLUTION + " TEXT NOT NULL);")
 
         private val DELETE_TABLE_QUESTIONS = "DROP TABLE IF EXISTS $TABLE_QUESTIONS"
 

@@ -18,7 +18,7 @@ class AdminMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.admin_main)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 
         databaseHelper = DatabaseHelper(this)
 
@@ -79,7 +79,7 @@ class AdminMainActivity : AppCompatActivity() {
                 btnEdit.layoutParams = params
 
                 btnEdit.setOnClickListener {
-                    intent = Intent(this, AdminExamResultActivity::class.java)
+                    intent = Intent(this, AdminQuestionsActivity::class.java)
                     intent.putExtra("EXAM_ID", exam[0])
                     intent.putExtra("EXAM_NAME", exam[1])
                     startActivity(intent)

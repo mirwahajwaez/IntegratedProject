@@ -1,0 +1,160 @@
+package com.example.integratedproject.admin
+
+import android.app.ActionBar
+import android.content.Intent
+import android.content.pm.ActivityInfo
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.*
+import com.example.integratedproject.R
+import com.example.integratedproject.database.DatabaseHelper
+
+class AdminAddQuestionActivity : AppCompatActivity() {
+    private var databaseHelper: DatabaseHelper? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.admin_add_question)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        databaseHelper = DatabaseHelper(this)
+
+    }
+
+
+    fun onRadioButtonClicked(view: View) {
+        if (view is RadioButton) {
+            val checked = view.isChecked
+
+            when (view.getId()) {
+                R.id.radioButtonMC ->
+                    if (checked) {
+                        createQuestionList(0)
+                    }
+                R.id.radioButtonCC ->
+                    if (checked) {
+                        createQuestionList(1)
+                    }
+                R.id.radioButtonOQ ->
+                    if (checked) {
+                        createQuestionList(2)
+                    }
+            }
+        }
+    }
+
+    private fun createQuestionList(type: Int) {
+        val lm = findViewById<View>(R.id.linearLayoutQuestion) as LinearLayout
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        val addQuestion = findViewById<Button>(R.id.buttonAddNewQuestion)
+
+
+        val ll = LinearLayout(this)
+        ll.orientation = LinearLayout.HORIZONTAL
+
+        if (type == 0) {
+            lm.removeAllViews()
+            ll.removeAllViews()
+            val textNewQuestion = TextView(this)
+            textNewQuestion.text = "Your question: "
+            textNewQuestion.layoutParams = params
+
+            val paramsButton: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
+            )
+            paramsButton.setMargins(100,0,0,0)
+
+            val checkBoxMultipleAnswer = CheckBox(this)
+            checkBoxMultipleAnswer.text = "Multiple answers"
+            checkBoxMultipleAnswer.layoutParams = paramsButton
+
+            val addNewOption = Button(this)
+            addNewOption.text = "Add option"
+            addNewOption.layoutParams = paramsButton
+
+            ll.addView(textNewQuestion)
+            ll.addView(checkBoxMultipleAnswer)
+            ll.addView(addNewOption)
+
+
+            val inputNewQuestion = EditText(this)
+            inputNewQuestion.id = 999-1
+            inputNewQuestion.layoutParams = params
+            inputNewQuestion.hint = "Enter your question here"
+
+            val textAnswers = TextView(this)
+            textAnswers.text = "Correct answer(s): "
+            textAnswers.layoutParams = params
+
+            val inputAnswers = EditText(this)
+            inputAnswers.id = 998-1
+            inputAnswers.layoutParams = params
+            inputAnswers.hint = "Enter the answer(s) here, seperated by ,"
+
+            lm.addView(ll)
+            lm.addView(inputNewQuestion)
+            lm.addView(textAnswers)
+            lm.addView(inputAnswers)
+
+
+
+            var counter = 0
+
+            addNewOption.setOnClickListener {
+                counter++
+                    val textNewOption = TextView(this)
+                    textNewOption.text = "Option $counter:"
+                    textNewOption.layoutParams = params
+
+                    val inputNewOption = EditText(this)
+                    inputNewOption.id = counter
+                    inputNewOption.layoutParams = params
+                    inputNewOption.hint = "Enter your option here"
+
+                    lm.addView(textNewOption)
+                    lm.addView(inputNewOption)
+            }
+
+            addQuestion.setOnClickListener {
+                val listAnswers = inputAnswers.text.toString().split(',')
+                var solutionString = ""
+                solutionString += findViewById<EditText>(999-1).text.toString()
+                solutionString += ";"
+                solutionString += if (checkBoxMultipleAnswer.isChecked) {
+                    "1;"
+                } else {
+                    "0;"
+                }
+                solutionString += "possibleAnswers;"
+                for (j in 1..counter) {
+                    solutionString += findViewById<EditText>(j).text.toString()
+                    solutionString += ";"
+                }
+                solutionString += "answers;"
+                for (i in listAnswers) {
+                    solutionString += i
+                    solutionString += ";"
+                }
+                //Add question to DB
+            }
+
+
+        }
+
+        if (type == 1) {
+            lm.removeAllViews()
+            ll.removeAllViews()
+        }
+
+        if (type == 2) {
+            lm.removeAllViews()
+            ll.removeAllViews()
+        }
+
+    }
+
+
+
+}
