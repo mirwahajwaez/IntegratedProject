@@ -38,8 +38,12 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
         buttonAddQuestions.setOnClickListener {
             val examId = intent.getStringExtra("EXAM_ID")
+            val examName = intent.getStringExtra("EXAM_NAME")
+
             intent = Intent(this, AdminAddQuestionActivity::class.java)
             intent.putExtra("EXAM_ID", examId)
+            intent.putExtra("EXAM_NAME", examName)
+
             startActivity(intent)
         }
 
