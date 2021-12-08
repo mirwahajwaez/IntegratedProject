@@ -2,7 +2,6 @@ package com.example.integratedproject.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.util.ArrayList
@@ -25,6 +24,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL(DELETE_TABLE_ADMIN)
         onCreate(db)
     }
+
+    fun placeholder() {
+        val db = this.writableDatabase
+        db.execSQL(DELETE_TABLE_QUESTIONS)
+        db.execSQL(CREATE_TABLE_QUESTIONS)
+
+    }
+
 
     fun allStudents(): ArrayList<String> {
         val studentsArrayList = ArrayList<String>()
@@ -57,9 +64,42 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return studentsArrayList
     }
 
-    fun allExams(): ArrayList<String> {
-        val examsArrayList = ArrayList<String>()
+    fun getStudent(studentId: String): ArrayList<String> {
+        val studentsArrayList = ArrayList<String>()
+        var snummer: String
+        val db = this.readableDatabase
+
+
+        val projection = arrayOf(STUDENT_ID, SNUMMER)
+        val selection = "$STUDENT_ID = ?"
+        val selectionArgs = arrayOf(studentId)
+        val sortOrder = "$STUDENT_ID DESC"
+
+        val cursor = db.query(
+            TABLE_STUDENTS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                snummer = cursor.getString(cursor.getColumnIndexOrThrow(SNUMMER))
+                studentsArrayList.add(snummer)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return studentsArrayList
+    }
+
+    fun allExams(): Array<Array<String>> {
+        var examsArrayList = arrayOf<Array<String>>()
         var name: String
+        var examId: Int
         val db = this.readableDatabase
 
         val projection = arrayOf(EXAM_ID, NAME)
@@ -79,8 +119,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
+                var array = arrayOf<String>()
                 name = cursor.getString(cursor.getColumnIndexOrThrow(NAME))
-                examsArrayList.add(name)
+                examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
+                array += examId.toString()
+                array += name
+                examsArrayList += array
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -93,6 +137,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         var admins = arrayOf<Array<String>>()
         var email: String
         var password: String
+        var adminId: Int
 
         val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
         val selection = null
@@ -114,8 +159,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 var array = arrayOf<String>()
                 email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
                 password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
+                adminId = cursor.getInt(cursor.getColumnIndexOrThrow(ADMIN_ID))
                 array += email
                 array += password
+                array += adminId.toString()
                 admins += array
             } while (cursor.moveToNext())
         }
@@ -123,6 +170,44 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
 
         return admins
+    }
+
+    fun getOneAdmin(adminIdd: String): ArrayList<String> {
+        val adminsArrayList = ArrayList<String>()
+        var email: String
+        var password: String
+        var adminId: Int
+        val db = this.readableDatabase
+
+
+        val projection = arrayOf(ADMIN_ID, EMAIL, PASSWORD)
+        val selection = "$ADMIN_ID = ?"
+        val selectionArgs = arrayOf(adminIdd)
+        val sortOrder = "$ADMIN_ID DESC"
+
+        val cursor = db.query(
+            TABLE_ADMINS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                email = cursor.getString(cursor.getColumnIndexOrThrow(EMAIL))
+                password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD))
+                adminId = cursor.getInt(cursor.getColumnIndexOrThrow(ADMIN_ID))
+                adminsArrayList.add(email)
+                adminsArrayList.add(password)
+                adminsArrayList.add(adminId.toString())
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        return adminsArrayList
     }
 
     fun allStudentExams(examIdToFind: Int): Array<Array<String>> {
@@ -175,19 +260,18 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
 
-    fun allQuestions(examIdToFind: Int): Array<Array<String>> {
+    fun allQuestions(examIdToFind: String?): Array<Array<String>> {
         val db = this.readableDatabase
         var questions = arrayOf<Array<String>>()
         var questionId: Int
         var examId: Int
-        var questiontNr: Int
         var type: Int
         var solution: String
 
-        val projection = arrayOf(QUESTION_ID, EXAM_ID, QUESTION_NR, TYPE, SOLUTION)
+        val projection = arrayOf(QUESTION_ID, EXAM_ID, TYPE, SOLUTION)
         val selection = "$EXAM_ID = ?"
         val selectionArgs = arrayOf(examIdToFind.toString())
-        val sortOrder = "$QUESTION_NR DESC"
+        val sortOrder = "$QUESTION_ID DESC"
 
         val cursor = db.query(
             TABLE_QUESTIONS,
@@ -204,12 +288,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 var array = arrayOf<String>()
                 questionId = cursor.getInt(cursor.getColumnIndexOrThrow(QUESTION_ID))
                 examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
-                questiontNr = cursor.getInt(cursor.getColumnIndexOrThrow(QUESTION_NR))
                 type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE))
                 solution = cursor.getString(cursor.getColumnIndexOrThrow(SOLUTION))
                 array += questionId.toString()
                 array += examId.toString()
-                array += questiontNr.toString()
                 array += type.toString()
                 array += solution
                 questions += array
@@ -259,14 +341,31 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.insert(TABLE_STUDENTSEXAMS, null, values)
     }
 
-    fun addQuestions(questiontNr: Int, type: Int, solution: String): Long {
+    fun addQuestions(examId: String, type: Int, solution: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(QUESTION_NR, questiontNr)
+        values.put(EXAM_ID, examId)
         values.put(TYPE, type)
         values.put(SOLUTION, solution)
 
         return db.insert(TABLE_QUESTIONS, null, values)
+    }
+
+    fun updateAdmin(oldPassword: String, newPassword: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(PASSWORD, newPassword)
+        }
+
+        val selection = "$PASSWORD LIKE ?"
+        val selectionArgs = arrayOf(oldPassword)
+
+        return db.update(
+            TABLE_ADMINS,
+            values,
+            selection,
+            selectionArgs
+        )
     }
 
     companion object {
@@ -288,7 +387,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         private val DELETE_TABLE_STUDENTS = "DROP TABLE IF EXISTS $TABLE_STUDENTS"
 
-        private val SELECT_STUDENTS = "SELECT * FROM $TABLE_STUDENTS"
 
         private val EXAM_ID = "exam_id"
         private val NAME = "name"
@@ -313,7 +411,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private val DELETE_TABLE_STUDENTSEXAMS = "DROP TABLE IF EXISTS $TABLE_STUDENTSEXAMS"
 
         private val QUESTION_ID = "question_id"
-        private val QUESTION_NR = "number"
         private val TYPE = "type"
         private val SOLUTION = "solution"
 
@@ -321,9 +418,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + TABLE_QUESTIONS + "(" + QUESTION_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + EXAM_ID + " INTEGER NOT NULL REFERENCES " + TABLE_EXAMS + "(" + EXAM_ID + "),"
-                + QUESTION_NR + " INTEGER NOT NULL,"
                 + TYPE + " SMALLINT NOT NULL,"
-                + SOLUTION + "INTEGER NOT NULL);")
+                + SOLUTION + " TEXT NOT NULL);")
 
         private val DELETE_TABLE_QUESTIONS = "DROP TABLE IF EXISTS $TABLE_QUESTIONS"
 
