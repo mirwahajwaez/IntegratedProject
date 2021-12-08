@@ -141,9 +141,15 @@ class AdminAddQuestionActivity : AppCompatActivity() {
                     solutionString += ";"
                 }
 
-                //Add question to DB
-                intent.getStringExtra("EXAM_ID")?.let { it1 -> databaseHelper!!.addQuestions(it1,1,solutionString) }
+                val id = intent.getStringExtra("EXAM_ID")
+                val name = intent.getStringExtra("EXAM_NAME")
+
+                if (id != null) {
+                    databaseHelper!!.addQuestions(id,1,solutionString)
+                }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
+                intent.putExtra("EXAM_ID", id)
+                intent.putExtra("EXAM_NAME", name)
 
                 Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
 
@@ -219,8 +225,15 @@ class AdminAddQuestionActivity : AppCompatActivity() {
                 solutionString += findViewById<EditText>(997-1).text.toString()
 
 
-                intent.getStringExtra("EXAM_ID")?.let { it1 -> databaseHelper!!.addQuestions(it1,2,solutionString) }
+                val id = intent.getStringExtra("EXAM_ID")
+                val name = intent.getStringExtra("EXAM_NAME")
+
+                if (id != null) {
+                    databaseHelper!!.addQuestions(id,2,solutionString)
+                }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
+                intent.putExtra("EXAM_ID", id)
+                intent.putExtra("EXAM_NAME", name)
 
                 Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
 

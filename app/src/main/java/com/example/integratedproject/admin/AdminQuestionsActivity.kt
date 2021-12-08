@@ -51,31 +51,40 @@ class AdminQuestionsActivity : AppCompatActivity() {
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
         )
+        params.setMargins(150,0,0,0)
 
         if (allQuestions.isNotEmpty()) {
             for (question in allQuestions) {
                 val ll = LinearLayout(this)
                 ll.orientation = LinearLayout.HORIZONTAL
+                val type = question[2]
+                val questionArray = question[3].split(';')
 
                 val questionText = TextView(this)
                 questionText.layoutParams = params
-                questionText.text = "Question: ${question[3]}"
-                //todo: vraag er uit halen
+                questionText.text = "Question: ${questionArray[0]}"
 
-                val type = TextView(this)
-                type.layoutParams = params
-                type.text = "Type: ${question[2]}"
-                //todo: switch voor type te vinden
-
+                val typeText = TextView(this)
+                typeText.layoutParams = params
+                when(type) {
+                    "1" -> typeText.text = "Multiple choice"
+                    "2" -> typeText.text = "Code correct"
+                    "3" -> typeText.text = "Open question"
+                }
 
                 val buttonEdit = Button(this)
                 buttonEdit.layoutParams = params
                 buttonEdit.text = "Edit"
+                buttonEdit.setOnClickListener {
+                    intent = Intent(this, AdminEditQuestionActivity::class.java)
+                    intent.putExtra("QUESTION", question)
+                    startActivity(intent)
+                }
 
 
 
                 ll.addView(questionText)
-                ll.addView(type)
+                ll.addView(typeText)
                 ll.addView(buttonEdit)
                 lm.addView(ll)
             }

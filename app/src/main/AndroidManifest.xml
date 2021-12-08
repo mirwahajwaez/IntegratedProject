@@ -30,6 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntegratedProject">
         <activity
+            android:name=".admin.AdminEditQuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminAddQuestionActivity"
             android:exported="false" />
         <activity
