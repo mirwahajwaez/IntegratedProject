@@ -24,6 +24,8 @@ class AdminQuestionsActivity : AppCompatActivity() {
         databaseHelper = DatabaseHelper(this)
 
 
+
+
         val buttonAddQuestions = findViewById<Button>(R.id.buttonAddQuestion)
         val questionsTextField = findViewById<TextView>(R.id.textView6)
 
