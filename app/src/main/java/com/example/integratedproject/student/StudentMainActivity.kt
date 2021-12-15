@@ -11,5 +11,6 @@ class StudentMainActivity : AppCompatActivity() {
         setContentView(R.layout.student_main)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+
     }
 }

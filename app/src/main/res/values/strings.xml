@@ -21,4 +21,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_admin_login">AdminLoginActivity</string>
+    <string name="kies_je_studentennummer_uit_de_lijst">Kies je studentennummer uit de lijst</string>
+    <string name="kies_uw_studentennummer_uit_de_lijs">Kies uw studentennummer uit de lijs</string>
 </resources>

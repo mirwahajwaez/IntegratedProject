@@ -30,6 +30,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntegratedProject">
         <activity
+            android:name=".student.ChooseStudent"
+            android:exported="false" />
+        <activity
+            android:name=".student.ChosenExam"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminViewExamActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminEditQuestionActivity"
             android:exported="false" />
         <activity
