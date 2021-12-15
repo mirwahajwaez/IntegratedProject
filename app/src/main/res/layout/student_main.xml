@@ -10,33 +10,26 @@
         android:id="@+id/txtExamenMaken"
         android:layout_width="255dp"
         android:layout_height="34dp"
-        android:text="Kies de examen die je moet maken"
+        android:text="Kies het examen dat je moet maken"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.042" />
 
-    <Button
-        android:id="@+id/btnWebframeworks"
-        android:layout_width="230dp"
-        android:layout_height="37dp"
-        android:text="Webframeworks"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:layout_width="552dp"
+        android:layout_height="333dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="88dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.238" />
+        app:layout_constraintTop_toBottomOf="@+id/txtExamenMaken">
 
-    <Button
-        android:id="@+id/btnWebservices"
-        android:layout_width="230dp"
-        android:layout_height="37dp"
-        android:text="Webservices"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402" />
+        <LinearLayout
+            android:id="@+id/linearLayoutChooseExam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

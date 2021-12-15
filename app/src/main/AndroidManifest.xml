@@ -30,6 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IntegratedProject">
         <activity
+            android:name=".student.ChosenQuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".student.ChooseStudent"
             android:exported="false" />
         <activity
