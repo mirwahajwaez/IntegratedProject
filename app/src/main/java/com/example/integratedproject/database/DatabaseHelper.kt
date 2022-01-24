@@ -217,10 +217,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         var examId: Int
         var latitude: Double
         var longitude: Double
-        var points: Int
+        var counter: String
         var answers: String
 
-        val projection = arrayOf(STUDENT_ID, EXAM_ID, LATITUDE, LONGITUDE, POINTS, ANSWERS)
+        val projection = arrayOf(STUDENT_ID, EXAM_ID, LATITUDE, LONGITUDE, COUNTER, ANSWERS)
         val selection = "$EXAM_ID = ?"
         val selectionArgs = arrayOf(examIdToFind.toString())
         val sortOrder = "$STUDENT_ID DESC"
@@ -242,13 +242,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
                 latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LATITUDE))
                 longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LONGITUDE))
-                points = cursor.getInt(cursor.getColumnIndexOrThrow(POINTS))
+                counter = cursor.getString(cursor.getColumnIndexOrThrow(COUNTER))
                 answers = cursor.getString(cursor.getColumnIndexOrThrow(ANSWERS))
                 array += studentId.toString()
                 array += examId.toString()
                 array += latitude.toString()
                 array += longitude.toString()
-                array += points.toString()
+                array += counter.toString()
                 array += answers
                 studentExams += array
             } while (cursor.moveToNext())
@@ -335,7 +335,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         values.put(EXAM_ID, examId)
         values.put(LONGITUDE, longitude)
         values.put(LATITUDE, latitude)
-        values.put(POINTS, points)
+        values.put(COUNTER, points)
         values.put(ANSWERS, answers)
 
         return db.insert(TABLE_STUDENTSEXAMS, null, values)
@@ -362,6 +362,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         return db.update(
             TABLE_ADMINS,
+            values,
+            selection,
+            selectionArgs
+        )
+    }
+
+    fun updateQuestion(oldQuestionString: String, newQuestionString: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(SOLUTION, newQuestionString)
+        }
+
+        val selection = "$SOLUTION LIKE ?"
+        val selectionArgs = arrayOf(oldQuestionString)
+
+        return db.update(
+            TABLE_QUESTIONS,
             values,
             selection,
             selectionArgs
@@ -400,13 +417,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         private val LONGITUDE = "long"
         private val LATITUDE = "lat"
-        private val POINTS = "points"
+        private val COUNTER = "counter"
         private val ANSWERS = "answers"
 
         private val CREATE_TABLE_STUDENTSEXAMS = ("CREATE TABLE " + TABLE_STUDENTSEXAMS + "(" + STUDENT_ID + " INTEGER NOT NULL REFERENCES " +
                 TABLE_STUDENTS + "(" + STUDENT_ID + ")," + EXAM_ID + " INTEGER NOT NULL REFERENCES " +
                 TABLE_EXAMS + "(" + EXAM_ID + "), " + LATITUDE + " DECIMAL(8,6), " + LONGITUDE + " DECIMAL(9,6), " +
-                POINTS + " TEXT, " + ANSWERS + " TEXT, PRIMARY KEY(" + STUDENT_ID + ", " + EXAM_ID + "));")
+                COUNTER + " TEXT, " + ANSWERS + " TEXT, PRIMARY KEY(" + STUDENT_ID + ", " + EXAM_ID + "));")
 
         private val DELETE_TABLE_STUDENTSEXAMS = "DROP TABLE IF EXISTS $TABLE_STUDENTSEXAMS"
 

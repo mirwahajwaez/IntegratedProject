@@ -6,4 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".admin.AdminEditQuestionActivity">
 
+    <ScrollView
+        android:layout_width="729dp"
+        android:layout_height="328dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="82dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonSaveQuestion"
+        android:layout_width="138dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:text="Save question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

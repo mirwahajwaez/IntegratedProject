@@ -28,6 +28,7 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
     private lateinit var examId: String
     private lateinit var examName: String
     private lateinit var chosenStudent: String
+    private lateinit var answers: String
     var counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +44,12 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
         examId = intent.getStringExtra("EXAM_ID").toString()
         examName = intent.getStringExtra("EXAM_NAME").toString()
         chosenStudent = intent.getStringExtra("SELECTED_STUDENT").toString()
+        answers = intent.getStringExtra("ANSWERS").toString()
 
         val examenNaam = findViewById<TextView>(R.id.textViewExamen)
         examenNaam.text = examName
 
 
-        // Toast.makeText(this, "latitude: $latitude longitude: $longitude", Toast.LENGTH_SHORT).show()
         createQuestionList()
     }
 
@@ -78,7 +79,7 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
                     intent.putExtra("EXAM_NAME", examName)
                     intent.putExtra("EXAM_ID", examId)
                     intent.putExtra("SELECTED_STUDENT", chosenStudent)
-                    intent.putExtra("COUNTER", counter)
+                    intent.putExtra("ANSWERS", answers)
 
                     startActivity(intent)
                 }

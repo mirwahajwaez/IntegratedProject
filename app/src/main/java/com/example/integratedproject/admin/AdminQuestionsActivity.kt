@@ -77,11 +77,15 @@ class AdminQuestionsActivity : AppCompatActivity() {
                 }
 
                 val buttonEdit = Button(this)
+                val examId = intent.getStringExtra("EXAM_ID")
+                val examName = intent.getStringExtra("EXAM_NAME")
                 buttonEdit.layoutParams = params
                 buttonEdit.text = "Edit"
                 buttonEdit.setOnClickListener {
                     intent = Intent(this, AdminEditQuestionActivity::class.java)
                     intent.putExtra("QUESTION", question)
+                    intent.putExtra("EXAM_ID", examId)
+                    intent.putExtra("EXAM_NAME", examName)
                     startActivity(intent)
                 }
 

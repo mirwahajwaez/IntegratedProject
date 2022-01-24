@@ -13,10 +13,16 @@ import android.text.method.ScrollingMovementMethod
 
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import com.example.integratedproject.admin.AdminQuestionsActivity
+import java.util.*
 
 
 class ChosenQuestionActivity : AppCompatActivity() {
     private lateinit var chosenQuestion: Array<String>
+    private lateinit var examId: String
+    private lateinit var examName: String
+    private lateinit var chosenStudent: String
+    private lateinit var answers: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +30,10 @@ class ChosenQuestionActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 
         chosenQuestion = intent.getStringArrayExtra("QUESTION") as Array<String>
-
+        examId = intent.getStringExtra("EXAM_ID").toString()
+        examName = intent.getStringExtra("EXAM_NAME").toString()
+        chosenStudent = intent.getStringExtra("SELECTED_STUDENT").toString()
+        answers = intent.getStringExtra("ANSWERS").toString()
 
         createQuestion()
     }
@@ -34,6 +43,9 @@ class ChosenQuestionActivity : AppCompatActivity() {
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
         )
+
+        val saveQuestion = findViewById<Button>(R.id.buttonSaveQuestion)
+
 
         val question = chosenQuestion[3].split(';')
 
@@ -50,18 +62,62 @@ class ChosenQuestionActivity : AppCompatActivity() {
                 options = options[1].split(";answers;")
                 options = options[0].split(';')
 
+                var multipleAnswer = false
+                var answer = ""
+                val rg = RadioGroup(this) //create the RadioGroup
+
                 if (question[1] == "0") {
                     //radiogroup
-                    val rg = RadioGroup(this) //create the RadioGroup
+                        multipleAnswer = false
                     rg.orientation = RadioGroup.VERTICAL
                     for (option in options) {
                         val rb = RadioButton(this)
+                        rb.id = option.hashCode()
                         rb.text = option
                         rg.addView(rb)
                     }
                     lm.addView(rg)
                 } else {
+                    multipleAnswer = true
                     //checkboxes
+                    for (option in options) {
+                        val cb = CheckBox(this)
+                        cb.id = option.hashCode()
+                        cb.text = option
+                        lm.addView(cb)
+                    }
+                }
+
+                rg.setOnCheckedChangeListener { group, checkedId ->
+                    val selectedOption: Int = rg.checkedRadioButtonId
+                    val radioButton = findViewById<RadioButton>(selectedOption)
+                    answer = radioButton.text as String
+                }
+
+
+                saveQuestion.setOnClickListener {
+                    var punt = 0
+                    val correctAnswer = chosenQuestion[3].split("possibleAnswers;")[1].split(";answers;")[1].split(";")[0]
+                    if (!multipleAnswer) {
+                        if (answer == correctAnswer) {
+                            punt = 1
+                        }
+                    }
+                    var stringAnswer = "vraagid;"
+                    stringAnswer += chosenQuestion[0]
+                    stringAnswer += ";"
+                    stringAnswer += answer
+                    stringAnswer += ";"
+                    stringAnswer += punt
+                    answers += stringAnswer;
+
+                    intent = Intent(this, ChosenExam::class.java)
+                    intent.putExtra("EXAM_NAME", examName)
+                    intent.putExtra("EXAM_ID", examId)
+                    intent.putExtra("SELECTED_STUDENT", chosenStudent)
+                    intent.putExtra("ANSWERS", answers)
+
+                    startActivity(intent)
                 }
 
             }
@@ -71,12 +127,10 @@ class ChosenQuestionActivity : AppCompatActivity() {
                 questionTextView.text = question[0]
                 questionTextView.layoutParams = params
 
-                val questionOmittedChars = TextView(this)
-                questionOmittedChars.text = "Ignored characters : "
-                questionOmittedChars.layoutParams = params
+                val code = question[3]
 
                 val codeToCorrect = TextView(this)
-                codeToCorrect.text = question[2]
+                codeToCorrect.text = code
                 codeToCorrect.layoutParams = params
 
 
@@ -88,13 +142,46 @@ class ChosenQuestionActivity : AppCompatActivity() {
                 answerInput.isVerticalScrollBarEnabled = true
                 answerInput.movementMethod = ScrollingMovementMethod.getInstance()
                 answerInput.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
-                answerInput.setText(question[2])
+                answerInput.setText(code)
                 answerInput.layoutParams = params
 
                 lm.addView(questionTextView)
-                lm.addView(questionOmittedChars)
                 lm.addView(codeToCorrect)
                 lm.addView(answerInput)
+
+
+                saveQuestion.setOnClickListener {
+                    var punt = 0
+                    val answer = answerInput.text.toString()
+                    val correctAnswer = chosenQuestion[3].split("answer;")[1]
+                    val caseSensitive = chosenQuestion[3].split(";")[1]
+                    if (caseSensitive == "1") {
+                        if (answer == correctAnswer) {
+                            punt = 1
+                        }
+                    } else {
+                        if (answer.lowercase(Locale.getDefault()) == correctAnswer.lowercase(Locale.getDefault())) {
+                            punt = 1
+                        }
+                    }
+
+                    var stringAnswer = "vraagid;"
+                    stringAnswer += chosenQuestion[0]
+                    stringAnswer += ";"
+                    stringAnswer += answer
+                    stringAnswer += ";"
+                    stringAnswer += punt
+                    answers += stringAnswer;
+
+
+                    intent = Intent(this, ChosenExam::class.java)
+                    intent.putExtra("EXAM_NAME", examName)
+                    intent.putExtra("EXAM_ID", examId)
+                    intent.putExtra("SELECTED_STUDENT", chosenStudent)
+                    intent.putExtra("ANSWERS", answers)
+
+                    startActivity(intent)
+                }
             }
             "3" -> {
                 // "Open question"
@@ -114,6 +201,27 @@ class ChosenQuestionActivity : AppCompatActivity() {
 
                 lm.addView(questionTextView)
                 lm.addView(answerInput)
+
+                saveQuestion.setOnClickListener {
+                    val answer = answerInput.text.toString()
+
+                    var stringAnswer = "vraagid;"
+                    stringAnswer += chosenQuestion[0]
+                    stringAnswer += ";"
+                    stringAnswer += answer
+                    stringAnswer += ";"
+                    stringAnswer += 0
+                    answers += stringAnswer;
+
+
+                    intent = Intent(this, ChosenExam::class.java)
+                    intent.putExtra("EXAM_NAME", examName)
+                    intent.putExtra("EXAM_ID", examId)
+                    intent.putExtra("SELECTED_STUDENT", chosenStudent)
+                    intent.putExtra("ANSWERS", answers)
+
+                    startActivity(intent)
+                }
             }
         }
     }

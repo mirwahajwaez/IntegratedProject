@@ -48,6 +48,7 @@ class AdminMainActivity : AppCompatActivity() {
         createExamList()
     }
 
+
     private fun createExamList() {
         val lm = findViewById<View>(R.id.linearMain) as LinearLayout
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
