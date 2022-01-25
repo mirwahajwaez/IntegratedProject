@@ -20,12 +20,15 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.integratedproject.MainActivity
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class ChosenExam : AppCompatActivity(), LifecycleObserver {
     private lateinit var location: String
     private lateinit var latitude: String
     private lateinit var longitude: String
     private var databaseHelper: DatabaseHelper? = null
+    val db = Firebase.firestore
     private lateinit var examId: String
     private lateinit var examName: String
     private lateinit var chosenStudent: String
@@ -57,6 +60,17 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
         endExam.setOnClickListener {
             Toast.makeText(this, "$chosenStudent", Toast.LENGTH_SHORT).show()
             databaseHelper!!.addStudentExam(chosenStudent, examId, longitude, latitude,counter, answers )
+            val studentExam = hashMapOf(
+                "chosenStudent" to chosenStudent,
+                "examId" to examId,
+                "longitude" to longitude,
+                "latitude" to latitude,
+                "counter" to counter,
+                "answers" to answers
+            )
+
+            db.collection("studentAnswers").document("${examName}-${chosenStudent}").set(studentExam)
+
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             Toast.makeText(this, "Exam has been saved", Toast.LENGTH_SHORT).show()

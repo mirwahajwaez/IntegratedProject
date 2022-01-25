@@ -8,10 +8,13 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.ArrayList
 
 class AdminResetActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
+    val db= Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class AdminResetActivity : AppCompatActivity() {
                 if (admins!![1] != textNewPassword.text.toString()) {
                     //update pw in db
                         databaseHelper!!.updateAdmin(admins[1],textNewPassword.text.toString())
+                        db.collection("admin").document("login").update("pass", textNewPassword.text.toString())
                     Toast.makeText(this, "Password updated, please login again", Toast.LENGTH_SHORT).show()
 
                     intent = Intent(this, AdminLoginActivity::class.java)

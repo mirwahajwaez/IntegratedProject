@@ -10,9 +10,12 @@ import android.widget.*
 import androidx.core.view.marginStart
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminExamResultActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

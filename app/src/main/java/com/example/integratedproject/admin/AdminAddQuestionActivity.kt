@@ -9,9 +9,12 @@ import android.view.View
 import android.widget.*
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminAddQuestionActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,6 +147,10 @@ class AdminAddQuestionActivity : AppCompatActivity() {
 
                 if (id != null) {
                     databaseHelper!!.addQuestions(id,1,solutionString)
+                    val solutions = hashMapOf(
+                        "solution" to solutionString
+                    )
+                    db.collection("questions").document(name.toString()).set(solutions)
                 }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
                 intent.putExtra("EXAM_ID", id)
@@ -228,6 +235,10 @@ class AdminAddQuestionActivity : AppCompatActivity() {
 
                 if (id != null) {
                     databaseHelper!!.addQuestions(id,2,solutionString)
+                    val solutions = hashMapOf(
+                        "solution" to solutionString
+                    )
+                    db.collection("questions").document(name.toString()).set(solutions)
                 }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
                 intent.putExtra("EXAM_ID", id)
@@ -265,6 +276,10 @@ class AdminAddQuestionActivity : AppCompatActivity() {
                 val name = intent.getStringExtra("EXAM_NAME")
                 if (id != null) {
                     databaseHelper!!.addQuestions(id,3,solutionString)
+                    val solutions = hashMapOf(
+                        "solution" to solutionString
+                    )
+                    db.collection("questions").document(name.toString()).set(solutions)
                 }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
                 intent.putExtra("EXAM_ID", id)

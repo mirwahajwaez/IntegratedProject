@@ -10,9 +10,12 @@ import android.view.View
 import android.widget.*
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminViewQuestionActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
+    val db = Firebase.firestore
     private lateinit var studentExam: Array<String>
     private lateinit var examName: String
     private lateinit var question: Array<String>
@@ -101,6 +104,10 @@ class AdminViewQuestionActivity : AppCompatActivity() {
                 }
 
                 databaseHelper!!.updateStudentExams(studentExam[5], solutionString)
+                val solutions = hashMapOf(
+                    "solution" to solutionString
+                )
+                db.collection("questions").document("name").set(solutions)
 
                 studentExam[5] = solutionString
 

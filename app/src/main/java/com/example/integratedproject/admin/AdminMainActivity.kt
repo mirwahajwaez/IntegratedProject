@@ -11,9 +11,12 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminMainActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,10 @@ class AdminMainActivity : AppCompatActivity() {
 
         buttonAddExams.setOnClickListener {
             databaseHelper!!.addExam(textExamName.text.toString())
+            val exam = hashMapOf(
+                "exam" to textExamName.text.toString()
+            )
+            db.collection("exam").document(textExamName.text.toString()).set(exam)
             createExamList()
         }
         createExamList()
