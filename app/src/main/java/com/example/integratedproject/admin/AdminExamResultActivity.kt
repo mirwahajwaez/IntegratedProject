@@ -47,15 +47,16 @@ class AdminExamResultActivity : AppCompatActivity() {
 
         if (examsStudents.isNotEmpty()) {
             for (exam in examsStudents) {
-                val snummer: ArrayList<String> = databaseHelper!!.getStudent(exam[0])
+                //val snummer: ArrayList<String> = databaseHelper!!.getStudent(exam[0])
 
                 val tr = TableRow(this)
                 tr.layoutParams = params
                 //2 text views, into tablerow into table layout
 
                 val textSnummer = TextView(this)
-                textSnummer.text = snummer[0]
+                textSnummer.text = exam[0]
                 textSnummer.layoutParams = params2
+
 
                 val textPoints = TextView(this)
                 textPoints.text = exam[4]
@@ -67,8 +68,12 @@ class AdminExamResultActivity : AppCompatActivity() {
                 btn.layoutParams = params2
 
                 btn.setOnClickListener {
-                    intent = Intent(this, AdminExamResultActivity::class.java)
+                    val examName = intent.getStringExtra("EXAM_NAME")
+
+                    intent = Intent(this, AdminExamResultQuestionsActivity::class.java)
                     intent.putExtra("STUDENTEXAM", exam)
+                    intent.putExtra("EXAM_NAME", examName)
+
 
                     startActivity(intent)
                 }

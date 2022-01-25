@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.example.integratedproject.MainActivity
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
 
@@ -37,6 +38,7 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         setContentView(R.layout.activity_chosen_exam)
         location = getLocationWithCheckNetworkAndGPS(this).toString()
+
         latitude = location.split(',')[0].split(' ')[1]
         longitude = location.split(',')[1].split(' ')[0]
         databaseHelper = DatabaseHelper(this)
@@ -46,8 +48,19 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
         chosenStudent = intent.getStringExtra("SELECTED_STUDENT").toString()
         answers = intent.getStringExtra("ANSWERS").toString()
 
+
+
         val examenNaam = findViewById<TextView>(R.id.textViewExamen)
         examenNaam.text = examName
+
+        val endExam = findViewById<Button>(R.id.buttonExamenStoppen)
+        endExam.setOnClickListener {
+            Toast.makeText(this, "$chosenStudent", Toast.LENGTH_SHORT).show()
+            databaseHelper!!.addStudentExam(chosenStudent, examId, longitude, latitude,counter, answers )
+            intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "Exam has been saved", Toast.LENGTH_SHORT).show()
+        }
 
 
         createQuestionList()

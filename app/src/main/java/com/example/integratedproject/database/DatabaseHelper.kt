@@ -27,8 +27,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun placeholder() {
         val db = this.writableDatabase
-        db.execSQL(DELETE_TABLE_QUESTIONS)
-        db.execSQL(CREATE_TABLE_QUESTIONS)
+        db.execSQL(DELETE_TABLE_STUDENTSEXAMS)
+        db.execSQL(CREATE_TABLE_STUDENTSEXAMS)
 
     }
 
@@ -213,17 +213,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun allStudentExams(examIdToFind: Int): Array<Array<String>> {
         val db = this.readableDatabase
         var studentExams = arrayOf<Array<String>>()
-        var studentId: Int
+        var snummer: String
         var examId: Int
         var latitude: Double
         var longitude: Double
         var counter: String
         var answers: String
 
-        val projection = arrayOf(STUDENT_ID, EXAM_ID, LATITUDE, LONGITUDE, COUNTER, ANSWERS)
+        val projection = arrayOf(SNUMMER, EXAM_ID, LATITUDE, LONGITUDE, COUNTER, ANSWERS)
         val selection = "$EXAM_ID = ?"
         val selectionArgs = arrayOf(examIdToFind.toString())
-        val sortOrder = "$STUDENT_ID DESC"
+        val sortOrder = "$SNUMMER DESC"
 
         val cursor = db.query(
             TABLE_STUDENTSEXAMS,
@@ -238,13 +238,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         if (cursor.moveToFirst()) {
             do {
                 var array = arrayOf<String>()
-                studentId = cursor.getInt(cursor.getColumnIndexOrThrow(STUDENT_ID))
+                snummer = cursor.getString(cursor.getColumnIndexOrThrow(SNUMMER))
                 examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
                 latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LATITUDE))
                 longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LONGITUDE))
                 counter = cursor.getString(cursor.getColumnIndexOrThrow(COUNTER))
                 answers = cursor.getString(cursor.getColumnIndexOrThrow(ANSWERS))
-                array += studentId.toString()
+                array += snummer.toString()
                 array += examId.toString()
                 array += latitude.toString()
                 array += longitude.toString()
@@ -328,14 +328,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.insert(TABLE_ADMINS, null, values)
     }
 
-    fun addStudentExam(studentId: Int, examId: Int, longitude: Double, latitude: Double, points: String, answers: String): Long {
+    fun addStudentExam(snummer: String, examId: String, longitude: String, latitude: String, counter: Int, answers: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(STUDENT_ID, studentId)
+        values.put(SNUMMER, snummer)
         values.put(EXAM_ID, examId)
         values.put(LONGITUDE, longitude)
         values.put(LATITUDE, latitude)
-        values.put(COUNTER, points)
+        values.put(COUNTER, counter)
         values.put(ANSWERS, answers)
 
         return db.insert(TABLE_STUDENTSEXAMS, null, values)
@@ -385,6 +385,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         )
     }
 
+    fun updateStudentExams(oldSolutionString: String, newSolutionString: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(ANSWERS, newSolutionString)
+        }
+
+        val selection = "$ANSWERS LIKE ?"
+        val selectionArgs = arrayOf(oldSolutionString)
+
+        return db.update(
+            TABLE_STUDENTSEXAMS,
+            values,
+            selection,
+            selectionArgs
+        )
+    }
+
     companion object {
 
         var DATABASE_NAME = "integrated_project"
@@ -420,10 +437,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private val COUNTER = "counter"
         private val ANSWERS = "answers"
 
-        private val CREATE_TABLE_STUDENTSEXAMS = ("CREATE TABLE " + TABLE_STUDENTSEXAMS + "(" + STUDENT_ID + " INTEGER NOT NULL REFERENCES " +
-                TABLE_STUDENTS + "(" + STUDENT_ID + ")," + EXAM_ID + " INTEGER NOT NULL REFERENCES " +
+        private val CREATE_TABLE_STUDENTSEXAMS = ("CREATE TABLE " + TABLE_STUDENTSEXAMS + "(" + SNUMMER + " TEXT REFERENCES " +
+                TABLE_STUDENTS + "(" + SNUMMER + ")," + EXAM_ID + " INTEGER NOT NULL REFERENCES " +
                 TABLE_EXAMS + "(" + EXAM_ID + "), " + LATITUDE + " DECIMAL(8,6), " + LONGITUDE + " DECIMAL(9,6), " +
-                COUNTER + " TEXT, " + ANSWERS + " TEXT, PRIMARY KEY(" + STUDENT_ID + ", " + EXAM_ID + "));")
+                COUNTER + " TEXT, " + ANSWERS + " TEXT, PRIMARY KEY(" + SNUMMER + ", " + EXAM_ID + "));")
 
         private val DELETE_TABLE_STUDENTSEXAMS = "DROP TABLE IF EXISTS $TABLE_STUDENTSEXAMS"
 

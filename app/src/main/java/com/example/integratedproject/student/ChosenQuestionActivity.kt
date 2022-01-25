@@ -10,6 +10,7 @@ import android.text.InputType
 import android.view.View
 import com.example.integratedproject.R
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 
 import android.view.inputmethod.EditorInfo
 import android.widget.*
@@ -172,6 +173,7 @@ class ChosenQuestionActivity : AppCompatActivity() {
                     stringAnswer += ";"
                     stringAnswer += punt
                     answers += stringAnswer;
+                    Log.d("TAG", answers)
 
 
                     intent = Intent(this, ChosenExam::class.java)
