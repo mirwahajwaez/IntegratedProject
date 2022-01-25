@@ -28,6 +28,7 @@ class AdminMainActivity : AppCompatActivity() {
 
         val textExamName = findViewById<EditText>(R.id.textExamName)
 
+
         buttonAddStudents.setOnClickListener {
             intent = Intent(this, AdminCsvActivity::class.java)
             startActivity(intent)
@@ -44,9 +45,10 @@ class AdminMainActivity : AppCompatActivity() {
             databaseHelper!!.addExam(textExamName.text.toString())
             createExamList()
         }
-
         createExamList()
+
     }
+
 
     private fun createExamList() {
         val lm = findViewById<View>(R.id.linearMain) as LinearLayout

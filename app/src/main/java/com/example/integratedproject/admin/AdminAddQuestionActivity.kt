@@ -18,8 +18,6 @@ class AdminAddQuestionActivity : AppCompatActivity() {
         setContentView(R.layout.admin_add_question)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         databaseHelper = DatabaseHelper(this)
-
-
     }
 
 
@@ -221,7 +219,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
                 }
                 solutionString += "code;"
                 solutionString += findViewById<EditText>(998-1).text.toString()
-                solutionString += "answer;"
+                solutionString += ";answer;"
                 solutionString += findViewById<EditText>(997-1).text.toString()
 
 
