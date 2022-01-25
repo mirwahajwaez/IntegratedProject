@@ -5,11 +5,14 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.marginStart
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminExamResultActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -33,7 +36,7 @@ class AdminExamResultActivity : AppCompatActivity() {
 
     private fun createResultsList() {
 
-
+        val db = Firebase.firestore;
         val tb = findViewById<View>(R.id.tableLayout) as TableLayout
         val params: TableRow.LayoutParams = TableRow.LayoutParams(
             ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT
@@ -48,7 +51,12 @@ class AdminExamResultActivity : AppCompatActivity() {
         if (examsStudents.isNotEmpty()) {
             for (exam in examsStudents) {
                 val snummer: ArrayList<String> = databaseHelper!!.getStudent(exam[0])
-
+                db.collection("students").get().addOnSuccessListener {
+                    result ->
+                    for (item in result){
+                        Log.d("firebase students", item.get("s-nummer").toString())
+                    }
+                }
                 val tr = TableRow(this)
                 tr.layoutParams = params
                 //2 text views, into tablerow into table layout
