@@ -2,6 +2,8 @@
     <string name="app_name">integratedProject</string>
     <string name="admin">Admin</string>
     <string name="student">Student</string>
+    <string name="firebase">Firebase</string>
+
     <string name="title_activity_student_main">StudentMainActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -14,8 +14,6 @@ import com.google.firebase.ktx.Firebase
 
 class AdminEditQuestionActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
-    val db = Firebase.firestore
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -277,7 +275,6 @@ class AdminEditQuestionActivity : AppCompatActivity() {
                 val name = intent.getStringExtra("EXAM_NAME")
                 if (id != null) {
                     databaseHelper!!.updateQuestion(question[3], solutionString)
-                    db.collection("questions").document(name.toString()).update("solution", solutionString)
                 }
                 intent = Intent(this, AdminQuestionsActivity::class.java)
                 intent.putExtra("EXAM_ID", id)

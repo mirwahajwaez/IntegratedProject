@@ -259,6 +259,55 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return studentExams
     }
 
+    fun getAllStudentExams(): Array<Array<String>> {
+        val db = this.readableDatabase
+        var studentExams = arrayOf<Array<String>>()
+        var snummer: String
+        var examId: Int
+        var latitude: Double
+        var longitude: Double
+        var counter: String
+        var answers: String
+
+        val projection = arrayOf(SNUMMER, EXAM_ID, LATITUDE, LONGITUDE, COUNTER, ANSWERS)
+        val selection = null
+        val selectionArgs = null
+        val sortOrder = null
+
+        val cursor = db.query(
+            TABLE_STUDENTSEXAMS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                var array = arrayOf<String>()
+                snummer = cursor.getString(cursor.getColumnIndexOrThrow(SNUMMER))
+                examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
+                latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LATITUDE))
+                longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(LONGITUDE))
+                counter = cursor.getString(cursor.getColumnIndexOrThrow(COUNTER))
+                answers = cursor.getString(cursor.getColumnIndexOrThrow(ANSWERS))
+                array += snummer.toString()
+                array += examId.toString()
+                array += latitude.toString()
+                array += longitude.toString()
+                array += counter.toString()
+                array += answers
+                studentExams += array
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+
+        return studentExams
+    }
+
 
     fun allQuestions(examIdToFind: String?): Array<Array<String>> {
         val db = this.readableDatabase
@@ -272,6 +321,49 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selection = "$EXAM_ID = ?"
         val selectionArgs = arrayOf(examIdToFind.toString())
         val sortOrder = "$QUESTION_ID DESC"
+
+        val cursor = db.query(
+            TABLE_QUESTIONS,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                var array = arrayOf<String>()
+                questionId = cursor.getInt(cursor.getColumnIndexOrThrow(QUESTION_ID))
+                examId = cursor.getInt(cursor.getColumnIndexOrThrow(EXAM_ID))
+                type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE))
+                solution = cursor.getString(cursor.getColumnIndexOrThrow(SOLUTION))
+                array += questionId.toString()
+                array += examId.toString()
+                array += type.toString()
+                array += solution
+                questions += array
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+
+        return questions
+    }
+
+    fun getAllQuestions(): Array<Array<String>> {
+        val db = this.readableDatabase
+        var questions = arrayOf<Array<String>>()
+        var questionId: Int
+        var examId: Int
+        var type: Int
+        var solution: String
+
+        val projection = arrayOf(QUESTION_ID, EXAM_ID, TYPE, SOLUTION)
+        val selection = null
+        val selectionArgs = null
+        val sortOrder = null
 
         val cursor = db.query(
             TABLE_QUESTIONS,

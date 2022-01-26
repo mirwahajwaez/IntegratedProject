@@ -25,7 +25,6 @@ class AdminCsvActivity : AppCompatActivity() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         databaseHelper = DatabaseHelper(this)
-        val db = Firebase.firestore
         val buttonImport = findViewById<Button>(R.id.buttonAdd)
         val csvTextField = findViewById<EditText>(R.id.textCsvStudents)
 
@@ -36,18 +35,7 @@ class AdminCsvActivity : AppCompatActivity() {
                val studentsData = csvData.split(",").toTypedArray()
                 for (i in studentsData) {
                     databaseHelper!!.addStudent(i)
-                    val student = hashMapOf(
-                        "s-number" to i
-                    )
 
-                    db.collection("students").document(i)
-                        .set(student)
-                        .addOnSuccessListener { documentReference ->
-                            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w(TAG, "Error adding document", e)
-                        }
                 }
                Toast.makeText(this, "Students stored!", Toast.LENGTH_LONG).show()
 

@@ -16,7 +16,6 @@ import com.google.firebase.ktx.Firebase
 
 class AdminLoginActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
-    val db = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +32,10 @@ class AdminLoginActivity : AppCompatActivity() {
         val email = "test@test.be"
         val pass = "test"
 
-        databaseHelper!!.addAdmin("test@test.be", "test")
+        //databaseHelper!!.addAdmin("test@test.be", "test")
         //databaseHelper!!.placeholder()
-        val login = hashMapOf(
-            "email" to email,
-            "pass" to pass
-        )
-        db.collection("admin").document("login").set(login)
-        
+
+
         buttonLogin.setOnClickListener {
             arrayAdmins = databaseHelper!!.allAdmins()
 

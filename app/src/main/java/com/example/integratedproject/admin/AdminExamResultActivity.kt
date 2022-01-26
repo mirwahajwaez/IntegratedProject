@@ -15,7 +15,6 @@ import com.google.firebase.ktx.Firebase
 
 class AdminExamResultActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
-    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
