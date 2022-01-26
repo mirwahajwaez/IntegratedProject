@@ -5,13 +5,11 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class AdminViewQuestionActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -62,7 +60,7 @@ class AdminViewQuestionActivity : AppCompatActivity() {
             textAnswer.layoutParams = params
 
             val textAnswerStudent = TextView(this)
-            textAnswerStudent.text = "students' answer: Student did not answer the question"
+            textAnswerStudent.text = getString(R.string.dna)
             textAnswerStudent.layoutParams = params
 
             val inputPoints = EditText(this)
@@ -72,8 +70,6 @@ class AdminViewQuestionActivity : AppCompatActivity() {
 
             for (aq in splittedStudentAnswers) {
                 val splittedQuestion = aq.split(";")
-                Log.d("OPEN", "$aq")
-                Log.d("OPEN1", "${question[0]}")
                 if (question[0] == splittedQuestion[0]) {
                     inputPoints.setText(splittedQuestion[2])
                     textAnswerStudent.text = "students' answer: "  + splittedQuestion[1]
@@ -131,7 +127,7 @@ class AdminViewQuestionActivity : AppCompatActivity() {
             textAnswer.layoutParams = params
 
             val textAnswerStudent = TextView(this)
-            textAnswerStudent.text = "students' answer: Student did not answer the question"
+            textAnswerStudent.text = getString(R.string.dna)
             textAnswerStudent.layoutParams = params
 
             val inputPoints = EditText(this)
@@ -141,15 +137,7 @@ class AdminViewQuestionActivity : AppCompatActivity() {
 
             for (aq in splittedStudentAnswers) {
                 val splittedQuestion = aq.split(";")
-                Log.d("MP", "$aq")
-                Log.d("MP2", "${studentExam[5]}")
-                Log.d("MP3", "${studentExam[0]}")
-                Log.d("MP4", "${studentExam[1]}")
-                Log.d("MP5", "${studentExam[2]}")
-                Log.d("MP6", "${studentExam[3]}")
-                Log.d("MP7", "${studentExam[4]}")
 
-                Log.d("MP1", "${question[0]}")
                 if (question[0] == splittedQuestion[0]) {
                     inputPoints.setText(splittedQuestion[2])
                     textAnswerStudent.text = "students' answer: "  + splittedQuestion[1]
@@ -202,7 +190,7 @@ class AdminViewQuestionActivity : AppCompatActivity() {
 
 
             val textAnswerStudent = TextView(this)
-            textAnswerStudent.text = "students' answer: Student did not answer the question"
+            textAnswerStudent.text = getString(R.string.dna)
             textAnswerStudent.layoutParams = params
 
             val inputPoints = EditText(this)
@@ -212,10 +200,6 @@ class AdminViewQuestionActivity : AppCompatActivity() {
 
             for (aq in splittedStudentAnswers) {
                 val splittedQuestion = aq.split(";")
-                Log.d("TAG", "$aq")
-                Log.d("TAG2", "${splittedStudentAnswers[0]}")
-
-                Log.d("TAG1", "${question[0]}")
 
                 if (question[0] == splittedQuestion[0]) {
                     inputPoints.setText(splittedQuestion[2])

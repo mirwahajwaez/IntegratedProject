@@ -5,26 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.integratedproject.R
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.preference.PreferenceManager
-import android.widget.Toast
 
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import org.osmdroid.config.Configuration
 
 import org.osmdroid.config.Configuration.*
-import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.ItemizedIconOverlay
 import org.osmdroid.views.overlay.ItemizedOverlay
-import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.OverlayItem
 import java.io.File
-import java.net.URL
 
 import java.util.ArrayList
 

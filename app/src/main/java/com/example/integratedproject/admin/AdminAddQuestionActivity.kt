@@ -9,8 +9,7 @@ import android.view.View
 import android.widget.*
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class AdminAddQuestionActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -61,7 +60,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             lm.removeAllViews()
             ll.removeAllViews()
             val textNewQuestion = TextView(this)
-            textNewQuestion.text = "Your question: "
+            textNewQuestion.text = getString(R.string.your_question)
             textNewQuestion.layoutParams = params
 
             val paramsButton: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
@@ -70,11 +69,11 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             paramsButton.setMargins(100,0,0,0)
 
             val checkBoxMultipleAnswer = CheckBox(this)
-            checkBoxMultipleAnswer.text = "Multiple answers"
+            checkBoxMultipleAnswer.text = getString(R.string.multiple_answers)
             checkBoxMultipleAnswer.layoutParams = paramsButton
 
             val addNewOption = Button(this)
-            addNewOption.text = "Add option"
+            addNewOption.text = getString(R.string.add_option)
             addNewOption.layoutParams = paramsButton
 
             ll.addView(textNewQuestion)
@@ -88,7 +87,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             inputNewQuestion.hint = "Enter your question here"
 
             val textAnswers = TextView(this)
-            textAnswers.text = "Correct answer(s): "
+            textAnswers.text = getString(R.string.correct_answers)
             textAnswers.layoutParams = params
 
             val inputAnswers = EditText(this)
@@ -166,7 +165,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             ll.removeAllViews()
 
             val textNewQuestion = TextView(this)
-            textNewQuestion.text = "Your question: "
+            textNewQuestion.text = getString(R.string.your_question)
             textNewQuestion.layoutParams = params
 
             val paramsButton: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
@@ -175,7 +174,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             paramsButton.setMargins(300,0,0,0)
 
             val checkBoxCaseSensitive = CheckBox(this)
-            checkBoxCaseSensitive.text = "Case sensitive?"
+            checkBoxCaseSensitive.text = getString(R.string.case_sensitive)
             checkBoxCaseSensitive.layoutParams = paramsButton
 
             ll.addView(textNewQuestion)
@@ -187,7 +186,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             inputNewQuestion.hint = "Enter your question here"
 
             val textCodeToCorrect = TextView(this)
-            textCodeToCorrect.text = "Your code to correct: "
+            textCodeToCorrect.text = getString(R.string.your_code_to_correct)
             textCodeToCorrect.layoutParams = params
 
             val inputNewCode = EditText(this)
@@ -196,7 +195,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             inputNewCode.hint = "Enter your code here"
 
             val textAnswers = TextView(this)
-            textAnswers.text = "Correct code: "
+            textAnswers.text = getString(R.string.correct_code)
             textAnswers.layoutParams = params
 
             val inputAnswers = EditText(this)
@@ -249,7 +248,7 @@ class AdminAddQuestionActivity : AppCompatActivity() {
             ll.removeAllViews()
 
             val textNewQuestion = TextView(this)
-            textNewQuestion.text = "Your question: "
+            textNewQuestion.text = getString(R.string.your_question)
             textNewQuestion.layoutParams = params
 
             ll.addView(textNewQuestion)

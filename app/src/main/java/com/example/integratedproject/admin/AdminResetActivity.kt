@@ -8,8 +8,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import java.util.ArrayList
 
 class AdminResetActivity : AppCompatActivity() {

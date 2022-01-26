@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="243dp"
         android:layout_marginTop="72dp"
-        android:text="New password"
+        android:text="@string/new_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="243dp"
         android:layout_marginTop="25dp"
-        android:text="Confirm new password"
+        android:text="@string/confirm_new_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNewPassword" />
 

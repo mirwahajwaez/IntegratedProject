@@ -27,7 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="Save question"
+        android:text="@string/save_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

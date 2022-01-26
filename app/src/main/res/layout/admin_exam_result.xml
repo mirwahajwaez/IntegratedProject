@@ -50,28 +50,28 @@
                     android:layout_height="wrap_content"
                     android:layout_column="0"
 
-                    android:text="snummer" />
+                    android:text="@string/snummer" />
 
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
-                    android:text="answers" />
+                    android:text="@string/answers" />
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
-                    android:text="mapview" />
+                    android:text="@string/mapview" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="3"
-                    android:text="Times left exam" />
+                    android:text="@string/times_left_exam" />
 
 
             </TableRow>

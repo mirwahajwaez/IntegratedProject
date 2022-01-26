@@ -2,17 +2,14 @@ package com.example.integratedproject.admin
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class AdminLoginActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -29,11 +26,11 @@ class AdminLoginActivity : AppCompatActivity() {
         val inputPassword = findViewById<EditText>(R.id.inputPassword)
         val inputEmail = findViewById<EditText>(R.id.inputEmail)
         var arrayAdmins: Array<Array<String>>
-        val email = "test@test.be"
-        val pass = "test"
 
+
+        //val email = "test@test.be"
+        //val pass = "test"
         //databaseHelper!!.addAdmin("test@test.be", "test")
-        //databaseHelper!!.placeholder()
 
 
         buttonLogin.setOnClickListener {

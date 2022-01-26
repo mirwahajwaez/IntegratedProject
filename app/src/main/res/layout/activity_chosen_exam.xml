@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="182dp"
-        android:text="Examen beëindigen"
+        android:text="@string/examen_stoppen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="147dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

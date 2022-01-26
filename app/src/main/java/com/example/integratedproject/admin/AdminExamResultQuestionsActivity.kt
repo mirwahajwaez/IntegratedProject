@@ -5,15 +5,12 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.example.integratedproject.student.ChosenQuestionActivity
 
 class AdminExamResultQuestionsActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -69,9 +66,9 @@ class AdminExamResultQuestionsActivity : AppCompatActivity() {
                 val typeText = TextView(this)
                 typeText.layoutParams = params
                 when(question[2]) {
-                    "1" -> typeText.text = "Multiple choice"
-                    "2" -> typeText.text = "Code correct"
-                    "3" -> typeText.text = "Open question"
+                    "1" -> typeText.text = getString(R.string.multiple_choice)
+                    "2" -> typeText.text = getString(R.string.code_correct)
+                    "3" -> typeText.text = getString(R.string.open_question)
                 }
 
                 val points = TextView(this)

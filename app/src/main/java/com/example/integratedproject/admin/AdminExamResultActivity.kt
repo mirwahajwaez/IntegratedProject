@@ -66,7 +66,7 @@ class AdminExamResultActivity : AppCompatActivity() {
                 textPoints.layout(150,0,0,0)
 
                 val btn = Button(this)
-                btn.text = "Answers"
+                btn.text = getString(R.string.answers)
                 btn.layoutParams = params2
 
                 btn.setOnClickListener {
@@ -81,7 +81,7 @@ class AdminExamResultActivity : AppCompatActivity() {
                 }
 
                 val btnEdit = Button(this)
-                btnEdit.text = "Mapview"
+                btnEdit.text = getString(R.string.mapview)
                 btnEdit.layoutParams = params2
 
                 btnEdit.setOnClickListener {

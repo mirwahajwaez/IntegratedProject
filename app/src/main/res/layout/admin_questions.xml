@@ -27,7 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="Add question"
+        android:text="@string/add_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="45dp"
-        android:text="This exam does not have any questions yet"
+        android:text="@string/this_exam_does_not_have_any_questions_yet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

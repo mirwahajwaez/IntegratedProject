@@ -20,8 +20,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.integratedproject.MainActivity
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class ChosenExam : AppCompatActivity(), LifecycleObserver {
     private lateinit var location: String
@@ -57,7 +56,6 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
 
         val endExam = findViewById<Button>(R.id.buttonExamenStoppen)
         endExam.setOnClickListener {
-            Toast.makeText(this, "$chosenStudent", Toast.LENGTH_SHORT).show()
             databaseHelper!!.addStudentExam(chosenStudent, examId, longitude, latitude,counter, answers )
 
 
@@ -104,9 +102,9 @@ class ChosenExam : AppCompatActivity(), LifecycleObserver {
                 val typeText = TextView(this)
                 typeText.layoutParams = params
                 when(question[2]) {
-                    "1" -> typeText.text = "Multiple choice"
-                    "2" -> typeText.text = "Code correct"
-                    "3" -> typeText.text = "Open question"
+                    "1" -> typeText.text = getString(R.string.multiple_choice)
+                    "2" -> typeText.text = getString(R.string.code_correct)
+                    "3" -> typeText.text = getString(R.string.open_question)
                 }
 
                 ll.addView(btn)

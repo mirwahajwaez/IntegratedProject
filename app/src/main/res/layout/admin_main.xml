@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="504dp"
         android:layout_marginBottom="100dp"
-        android:text="Add students"
+        android:text="@string/add_students"
         app:layout_constraintBottom_toTopOf="@+id/buttonExam"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="76dp"
         android:layout_marginBottom="180dp"
-        android:text="Add exam"
+        android:text="@string/add_exam"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -40,7 +40,7 @@
         android:layout_marginBottom="13dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Exam name"
+        android:text="@string/exam_name"
         app:layout_constraintBottom_toTopOf="@+id/buttonExam"
         app:layout_constraintEnd_toStartOf="@+id/scrollView"
         app:layout_constraintHorizontal_bias="0.0"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="78dp"
         android:layout_marginTop="102dp"
-        android:text="Reset Password"
+        android:text="@string/reset_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonExam" />
 </androidx.constraintlayout.widget.ConstraintLayout>

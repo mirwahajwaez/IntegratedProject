@@ -11,8 +11,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.example.integratedproject.R
 import com.example.integratedproject.database.DatabaseHelper
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class AdminMainActivity : AppCompatActivity() {
     private var databaseHelper: DatabaseHelper? = null
@@ -80,7 +79,7 @@ class AdminMainActivity : AppCompatActivity() {
                 }
 
                 val btnEdit = Button(this)
-                btnEdit.text = "Edit"
+                btnEdit.text = getString(R.string.edit)
                 btnEdit.layoutParams = params
 
                 btnEdit.setOnClickListener {

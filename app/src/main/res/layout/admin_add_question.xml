@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="88dp"
-        android:text="Type of question"
+        android:text="@string/type_of_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Multiple choice" />
+            android:text="@string/multiple_choice" />
         />
 
         <RadioButton
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Code correct" />
+            android:text="@string/code_correct" />
         />
 
         <RadioButton
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Open question" />
+            android:text="@string/open_question" />
         />
     </RadioGroup>
 
@@ -74,7 +74,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="60dp"
-        android:text="Add question"
+        android:text="@string/add_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 

@@ -1,25 +1,13 @@
 package com.example.integratedproject.student
 
-import android.Manifest
-import android.content.Context
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.integratedproject.R
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.*
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.integratedproject.admin.AdminMainActivity
 import com.example.integratedproject.database.DatabaseHelper
-import android.location.LocationManager
-
-import android.content.pm.PackageManager
-import android.location.Location
-
-import androidx.core.app.ActivityCompat
 
 
 

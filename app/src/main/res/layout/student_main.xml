@@ -10,7 +10,7 @@
         android:id="@+id/txtExamenMaken"
         android:layout_width="255dp"
         android:layout_height="34dp"
-        android:text="Kies het examen dat je moet maken"
+        android:text="@string/kies_het_examen_dat_je_moet_maken"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
